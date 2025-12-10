@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Pinyon+Script&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .certificate-container {
+            width: 800px;
+            height: 600px;
+            background-color: white;
+            padding: 40px;
+            border: 10px double #4f46e5;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            font-family: 'Cinzel', serif;
+            font-size: 40px;
+            color: #4f46e5;
+            margin-bottom: 20px;
+        }
+
+        .sub-header {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+
+        .student-name {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 60px;
+            border-bottom: 2px solid #ddd;
+            display: inline-block;
+            min-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .course-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .dated {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .signature {
+            border-top: 1px solid #000;
+            width: 200px;
+            padding-top: 10px;
+        }
+
+        .print-btn {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .certificate-container {
+                box-shadow: none;
+                border: 5px solid #4f46e5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="certificate-container">
+        <div class="header">Certificate of Completion</div>
+        <div class="sub-header">This is to certify that</div>
+
+        <div class="student-name">
+            <%= user.name %>
+        </div>
+
+        <div class="sub-header">has successfully completed the course</div>
+
+        <div class="course-name">
+            <%= course.title %>
+        </div>
+
+        <div class="dated">
+            <div>
+                <div>
+                    <%= date %>
+                </div>
+                <div class="signature">Date</div>
+            </div>
+            <div>
+                <div style="font-family: 'Pinyon Script'; font-size: 30px;">LearnHub Admin</div>
+                <div class="signature">Instructor</div>
+            </div>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">Print Certificate</button>
+    </div>
+</body>
+
+</html>

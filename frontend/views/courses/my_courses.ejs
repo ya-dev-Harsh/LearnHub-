@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+    <div class="container" style="padding: 2rem 0;">
+        <h1 style="margin-bottom: 2rem;">My Learning</h1>
+
+        <% if (courses.length===0) { %>
+            <div
+                style="background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border-color); text-align: center;">
+                <p style="margin-bottom: 1rem;">You haven't enrolled in any courses yet.</p>
+                <a href="/courses" class="btn btn-primary">Browse Courses</a>
+            </div>
+            <% } else { %>
+                <div class="card-grid">
+                    <% courses.forEach(course=> { %>
+                        <div class="card">
+                            <img src="<%= course.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80' %>"
+                                class="card-img" alt="<%= course.title %>" style="height: 140px;">
+                            <div class="card-body">
+                                <h3 class="card-title" style="font-size: 1.1rem;">
+                                    <%= course.title %>
+                                </h3>
+
+                                <div style="margin: 1rem 0;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                        <span>Progress</span>
+                                        <span>
+                                            <%= course.percent %>%
+                                        </span>
+                                    </div>
+                                    <div
+                                        style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+                                        <div
+                                            style="background: var(--primary-color); height: 100%; width: <%= course.percent %>%;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <a href="/courses/<%= course.id %>/learn" class="btn btn-primary"
+                                        style="flex: 1; text-align: center; font-size: 0.9rem; padding: 0.5rem;">
+                                        <%= course.percent===0 ? 'Start' : 'Continue' %>
+                                    </a>
+                                    <% if (course.percent===100) { %>
+                                        <a href="/courses/<%= course.id %>/certificate" class="btn btn-secondary"
+                                            style="font-size: 0.9rem; padding: 0.5rem;">Cert</a>
+                                        <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } %>
+    </div>
+
+    <%- include('../partials/footer') %>

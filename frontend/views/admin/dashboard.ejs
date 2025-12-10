@@ -1,0 +1,95 @@
+<%- include('../partials/header') %>
+
+    <div class="container" style="padding: 3rem 0;">
+        <h1 style="margin-bottom: 2rem;">Admin Dashboard</h1>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+            <!-- Left Column: List Courses -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2>Your Courses</h2>
+                </div>
+
+                <% if (courses.length===0) { %>
+                    <div class="card" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                        No courses created yet.
+                    </div>
+                    <% } else { %>
+                        <div style="display: grid; gap: 1.5rem;">
+                            <% courses.forEach(course=> { %>
+                                <div class="card" style="flex-direction: row; align-items: start; padding: 0;">
+                                    <div
+                                        style="width: 120px; background: #e0e7ff; display: flex; align-items: center; justify-content: center; color: #4338ca; font-weight: bold; border-right: 1px solid var(--border-color);">
+                                        COURSE
+                                    </div>
+                                    <div style="padding: 1.5rem; flex: 1;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <h3 style="margin: 0;">
+                                                <%= course.title %>
+                                            </h3>
+                                            <span style="font-weight: bold; color: var(--primary-color);">$<%=
+                                                    course.price %></span>
+                                        </div>
+                                        <p
+                                            style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1rem 0;">
+                                            <%= course.description %>
+                                        </p>
+
+                                        <!-- Compact Content Form -->
+                                        <details
+                                            style="background: #f9fafb; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                                            <summary
+                                                style="cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--text-color);">
+                                                Add Content (Video/PDF)</summary>
+                                            <form action="/admin/courses/<%= course.id %>/content" method="POST"
+                                                enctype="multipart/form-data"
+                                                style="margin-top: 1rem; display: grid; gap: 0.5rem;">
+                                                <input type="text" name="title" placeholder="Lesson Title" required
+                                                    style="font-size: 0.9rem;">
+                                                <div style="display: flex; gap: 0.5rem;">
+                                                    <select name="type" style="font-size: 0.9rem;">
+                                                        <option value="video">Video</option>
+                                                        <option value="pdf">PDF</option>
+                                                    </select>
+                                                    <input type="file" name="file" required
+                                                        style="font-size: 0.9rem; flex: 1;">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary"
+                                                    style="font-size: 0.85rem; padding: 0.5rem;">Upload Content</button>
+                                            </form>
+                                        </details>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+            </div>
+
+            <!-- Right Column: Create Course -->
+            <div>
+                <div class="card" style="position: sticky; top: 100px; box-shadow: var(--shadow-lg);">
+                    <div class="card-body">
+                        <h2 style="font-size: 1.25rem;">Create New Course</h2>
+                        <form action="/admin/courses" method="POST">
+                            <div class="form-group">
+                                <label for="title">Course Title</label>
+                                <input type="text" name="title" required placeholder="Ex: Advanced React Patterns">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea name="description" rows="4" required
+                                    placeholder="What will students learn?"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price ($)</label>
+                                <input type="number" name="price" step="0.01" value="29.99">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Create Course</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>

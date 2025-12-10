@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+
+    <div class="container" style="padding: 3rem 0;">
+        <div
+            style="background: white; border-radius: var(--radius); border: 1px solid var(--border-color); padding: 2rem; display: flex; gap: 3rem; flex-wrap: wrap;">
+            <!-- Left: Image & Info -->
+            <div style="flex: 1; min-width: 300px;">
+                <img src="<%= course.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80' %>"
+                    style="width: 100%; border-radius: var(--radius); margin-bottom: 1.5rem;">
+
+                <h1 style="margin-bottom: 1rem; color: var(--primary-color);">
+                    <%= course.title %>
+                </h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <%= course.description %>
+                </p>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <strong>Instructor:</strong>
+                    <%= course.instructor || 'LearnHub Instructor' %>
+                </div>
+
+                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem;">Price: $<%= course.price %>
+                </div>
+
+                <% if (isEnrolled) { %>
+                    <a href="/courses/<%= course.id %>/learn" class="btn btn-primary"
+                        style="width: 100%; text-align: center;">Continue Learning</a>
+                    <% } else { %>
+                        <a href="/courses/<%= course.id %>/checkout" class="btn btn-primary"
+                            style="width: 100%; text-align: center;">Enroll Now</a>
+                        <% } %>
+            </div>
+
+            <!-- Right: Curriculum -->
+            <div style="flex: 1; min-width: 300px;">
+                <h2
+                    style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                    Course Content</h2>
+                <div style="background: var(--background-color); border-radius: var(--radius); overflow: hidden;">
+                    <% if (contents.length===0) { %>
+                        <div style="padding: 1rem;">No content uploaded yet.</div>
+                        <% } else { %>
+                            <% contents.forEach((content, index)=> { %>
+                                <div
+                                    style="padding: 1rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 1rem;">
+                                    <span
+                                        style="background: #e2e8f0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.8rem; font-weight: 700;">
+                                        <%= index + 1 %>
+                                    </span>
+                                    <span>
+                                        <%= content.title %>
+                                    </span>
+                                    <span style="margin-left: auto; font-size: 0.8rem; color: var(--text-muted);">
+                                        <%= content.type %>
+                                    </span>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>

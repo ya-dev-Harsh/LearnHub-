@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning: <%= course.title %>
+    </title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-area {
+            flex: 1;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .top-bar {
+            height: 60px;
+            background: #1e293b;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            justify-content: space-between;
+            color: white;
+            border-bottom: 1px solid #334155;
+        }
+
+        .lesson-btn {
+            text-align: left;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background: none;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .lesson-btn:hover {
+            background: #f8fafc;
+        }
+
+        .lesson-btn.active {
+            background: #e0e7ff;
+            border-left: 4px solid var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="display: flex; height: 100%;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+                <a href="/courses/my-courses"
+                    style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">← Back
+                    to My Learning</a>
+                <h3 style="font-size: 1.1rem; margin: 0;">
+                    <%= course.title %>
+                </h3>
+            </div>
+            <div style="overflow-y: auto; flex: 1;">
+                <% contents.forEach((content, index)=> { %>
+                    <button class="lesson-btn"
+                        onclick="loadContent('<%= content.url %>', '<%= content.type %>', '<%= content.title %>')">
+                        <div style="display: flex; gap: 0.75rem;">
+                            <span style="color: var(--text-muted); font-size: 0.9rem;">
+                                <%= index + 1 %>.
+                            </span>
+                            <div>
+                                <div style="font-weight: 500; font-size: 0.95rem;">
+                                    <%= content.title %>
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">
+                                    <% if (content.type==='video' ) { %>
+                                        📺 Video File
+                                        <% } else if (content.type==='youtube' ) { %>
+                                            ▶️ YouTube
+                                            <% } else { %>
+                                                📄 PDF Resource
+                                                <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                    <% }) %>
+            </div>
+            <div style="padding: 1.5rem; border-top: 1px solid var(--border-color);">
+                <button onclick="markComplete()" class="btn btn-primary" style="width: 100%;">Mark Course 100%
+                    Complete</button>
+            </div>
+        </div>
+
+        <!-- Player -->
+        <div class="player-area">
+            <div id="content-display"
+                style="width: 100%; max-width: 900px; padding: 2rem; color: white; text-align: center;">
+                <h2>Select a lesson from the sidebar to start watching</h2>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadContent(url, type, title) {
+            const display = document.getElementById('content-display');
+
+            if (type === 'video') {
+                display.innerHTML = `
+                    <h2 style="margin-bottom: 1.5rem;">${title}</h2>
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0.75rem; background: black; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);">
+                        <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                            <source src="${url}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                `;
+            } else if (type === 'youtube') {
+                display.innerHTML = `
+                    <h2 style="margin-bottom: 1.5rem;">${title}</h2>
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0.75rem; background: black; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);">
+                        <iframe src="${url}" title="${title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                    </div>
+                `;
+            } else if (type === 'pdf') {
+                display.innerHTML = `
+                    <h2 style="margin-bottom: 1.5rem;">${title}</h2>
+                    <iframe src="${url}" style="width: 100%; height: 80vh; border: none; background: white; border-radius: 0.75rem;"></iframe>
+                `;
+            }
+        }
+
+        async function markComplete() {
+            if (confirm('Are you sure you want to mark this course as 100% completed?')) {
+                try {
+                    const res = await fetch('/courses/<%= course.id %>/progress', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ percent: 100 })
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok && data.success) {
+                        alert('Course Completed! Access your certificate in My Learning.');
+                        window.location.href = '/courses/my-courses';
+                    } else {
+                        alert('Failed to update progress: ' + (data.error || 'Unknown error'));
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('Error updating progress: ' + err.message);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

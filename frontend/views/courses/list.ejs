@@ -1,0 +1,34 @@
+<%- include('../partials/header') %>
+
+    <div class="container" style="padding: 2rem 0;">
+        <h1 style="margin-bottom: 2rem;">Browse Courses</h1>
+
+        <div class="card-grid">
+            <% courses.forEach(course=> { %>
+                <div class="card">
+                    <img src="<%= course.image_url || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80' %>"
+                        class="card-img" alt="<%= course.title %>">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <%= course.title %>
+                        </h3>
+                        <p class="card-text"
+                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            <%= course.description %>
+                        </p>
+                        <div style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            <strong>Instructor:</strong>
+                            <%= course.instructor || 'LearnHub Instructor' %>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="price">$<%= course.price %></span>
+                            <a href="/courses/<%= course.id %>" class="btn btn-primary"
+                                style="padding: 0.5rem 1rem;">View Course</a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>

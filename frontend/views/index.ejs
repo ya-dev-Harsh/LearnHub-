@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+
+    <div class="container" style="padding: 4rem 0; text-align: center;">
+        <h1 style="font-size: 3rem; margin-bottom: 1.5rem; color: var(--text-main);">Welcome to LearnHub</h1>
+        <p
+            style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Advance your career with our extensive collection of high-quality courses. Learn at your own pace.
+        </p>
+        <a href="/courses" class="btn btn-primary">Explore All Courses</a>
+    </div>
+
+    <div class="container">
+        <h2 style="margin-bottom: 2rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Featured
+            Courses</h2>
+        <div class="card-grid">
+            <!-- Manually showing a few mock items or dynamic if available -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" class="card-img"
+                    alt="Course">
+                <div class="card-body">
+                    <h3 class="card-title">Full Stack Web Development</h3>
+                    <p class="card-text">Master HTML, CSS, JS, and Node.js in this comprehensive bootcamp.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="price">$29.99</span>
+                        <a href="/courses" class="btn btn-secondary" style="font-size: 0.9rem;">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=80" class="card-img"
+                    alt="Course">
+                <div class="card-body">
+                    <h3 class="card-title">Data Science Fundamentals</h3>
+                    <p class="card-text">Learn to analyze data using Python and Pandas. Build predictive models.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="price">$49.99</span>
+                        <a href="/courses" class="btn btn-secondary" style="font-size: 0.9rem;">View Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=600&q=80" class="card-img"
+                    alt="Course">
+                <div class="card-body">
+                    <h3 class="card-title">UX/UI Design Masterclass</h3>
+                    <p class="card-text">Design beautiful user interfaces and user experiences that users love.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="price">$39.99</span>
+                        <a href="/courses" class="btn btn-secondary" style="font-size: 0.9rem;">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
