@@ -1,22 +1,16 @@
 :root {
-    /* Light Theme (Professional Slate) */
     --primary-color: #2563eb;
-    /* Royal Blue */
     --primary-hover: #1d4ed8;
 
     --bg-body: #f8fafc;
-    /* Slate 50 */
     --bg-card: #ffffff;
     --bg-nav: #ffffff;
 
     --text-main: #0f172a;
-    /* Slate 900 */
     --text-muted: #64748b;
-    /* Slate 500 */
     --text-inverse: #ffffff;
 
     --border-color: #e2e8f0;
-    /* Slate 200 */
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -29,25 +23,18 @@
 }
 
 [data-theme="dark"] {
-    /* Dark Theme (Slate Dark Mode) */
     --primary-color: #3b82f6;
-    /* Lighter Blue for Dark Mode */
     --primary-hover: #60a5fa;
 
     --bg-body: #0f172a;
-    /* Slate 900 */
     --bg-card: #1e293b;
-    /* Slate 800 */
     --bg-nav: #1e293b;
 
     --text-main: #f1f5f9;
-    /* Slate 100 */
     --text-muted: #94a3b8;
-    /* Slate 400 */
     --text-inverse: #0f172a;
 
     --border-color: #334155;
-    /* Slate 700 */
 
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
@@ -57,7 +44,6 @@
     --bg-info: #1e3a8a;
 }
 
-/* SweetAlert2 Dark Mode Overrides */
 [data-theme="dark"] .swal2-popup {
     background: var(--bg-card) !important;
     color: var(--text-main) !important;
@@ -91,14 +77,12 @@ ul {
     list-style: none;
 }
 
-/* Layout */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-/* Navbar */
 .navbar {
     background-color: var(--bg-nav);
     border-bottom: 1px solid var(--border-color);
@@ -154,7 +138,6 @@ ul {
     color: var(--text-main);
 }
 
-/* Buttons */
 .btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -169,7 +152,6 @@ ul {
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
-    /* Always white/inverse on primary button? Or should be dynamic. Keeping white for now as blues are dark enough. */
 }
 
 .btn-primary:hover {
@@ -184,10 +166,8 @@ ul {
 
 .btn-secondary:hover {
     background-color: var(--bg-body);
-    /* Slight contrast */
 }
 
-/* Cards */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -239,7 +219,6 @@ ul {
     margin-bottom: 1rem;
 }
 
-/* Forms */
 .form-group {
     margin-bottom: 1rem;
 }
@@ -261,7 +240,6 @@ ul {
     color: var(--text-main);
 }
 
-/* Footer */
 footer {
     background-color: var(--bg-nav);
     border-top: 1px solid var(--border-color);
@@ -291,15 +269,11 @@ footer {
     color: var(--primary-color);
 }
 
-
-/* Mobile Responsiveness */
-/* Mobile Responsiveness */
 @media (max-width: 768px) {
     .container {
         padding: 0 1rem;
     }
 
-    /* Navbar: Keep logo and hamburger in a row */
     .navbar .container {
         flex-direction: row;
         justify-content: space-between;
@@ -313,13 +287,11 @@ footer {
         position: fixed;
         top: 0;
         right: -100%;
-        /* Hidden by default */
         width: 75%;
         max-width: 300px;
         height: 100vh;
         background-color: var(--bg-card);
         flex-direction: column;
-        /* Stack items vertically */
         align-items: flex-start;
         padding: 2rem;
         box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
@@ -330,7 +302,6 @@ footer {
 
     .nav-links.active {
         right: 0;
-        /* Slide in */
     }
 
     .nav-links .close-btn {
@@ -339,7 +310,6 @@ footer {
 
     .nav-links div {
         align-items: flex-start !important;
-        /* Align user info/buttons left */
         width: 100%;
     }
 
@@ -348,13 +318,11 @@ footer {
         pointer-events: auto !important;
     }
 
-    /* Footer Stacking */
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
 
-    /* Typography */
     h1 {
         font-size: 2rem !important;
     }

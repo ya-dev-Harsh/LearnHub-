@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { query } = require('../db');
 
-// Middleware to check if logged in
 const isAuthenticated = (req, res, next) => {
     if (req.session.user) {
         next();
@@ -11,7 +10,6 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-// List all courses (Public)
 router.get('/', async (req, res) => {
     try {
         const result = await query('SELECT * FROM courses ORDER BY created_at DESC');
@@ -26,7 +24,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// My Enrolled Courses
 router.get('/my-courses', isAuthenticated, async (req, res) => {
     try {
         const userId = req.session.user.id;
@@ -49,7 +46,6 @@ router.get('/my-courses', isAuthenticated, async (req, res) => {
     }
 });
 
-// View Course Details (Before Enrollment)
 router.get('/:id', async (req, res) => {
     try {
         const courseId = req.params.id;
@@ -77,14 +73,12 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Checkout Page
 router.get('/:id/checkout', isAuthenticated, async (req, res) => {
     try {
         const courseId = req.params.id;
         const courseRes = await query('SELECT * FROM courses WHERE id = $1', [courseId]);
         if (courseRes.rows.length === 0) return res.status(404).send('Course not found');
 
-        // Redirect if already enrolled
         const check = await query('SELECT * FROM enrollments WHERE user_id = $1 AND course_id = $2', [req.session.user.id, courseId]);
         if (check.rows.length > 0) return res.redirect('/courses/my-courses');
 
@@ -99,13 +93,11 @@ router.get('/:id/checkout', isAuthenticated, async (req, res) => {
     }
 });
 
-// Enroll in Course (Post-Payment)
 router.post('/:id/enroll', isAuthenticated, async (req, res) => {
     try {
         const courseId = req.params.id;
         const userId = req.session.user.id;
 
-        // Check if already enrolled
         const check = await query('SELECT * FROM enrollments WHERE user_id = $1 AND course_id = $2', [userId, courseId]);
         if (check.rows.length === 0) {
             await query('INSERT INTO enrollments (user_id, course_id) VALUES ($1, $2)', [userId, courseId]);
@@ -122,13 +114,11 @@ router.post('/:id/enroll', isAuthenticated, async (req, res) => {
     }
 });
 
-// Learn Mode (Video/PDF Player)
 router.get('/:id/learn', isAuthenticated, async (req, res) => {
     try {
         const courseId = req.params.id;
         const userId = req.session.user.id;
 
-        // Verify enrollment
         const enrollCheck = await query('SELECT * FROM enrollments WHERE user_id = $1 AND course_id = $2', [userId, courseId]);
         if (enrollCheck.rows.length === 0) return res.status(403).send('Not Enrolled');
 
@@ -147,7 +137,6 @@ router.get('/:id/learn', isAuthenticated, async (req, res) => {
     }
 });
 
-// Update Progress
 router.post('/:id/progress', isAuthenticated, async (req, res) => {
     try {
         const courseId = req.params.id;
@@ -176,13 +165,11 @@ router.post('/:id/progress', isAuthenticated, async (req, res) => {
     }
 });
 
-// Certificate
 router.get('/:id/certificate', isAuthenticated, async (req, res) => {
     try {
         const courseId = req.params.id;
         const userId = req.session.user.id;
 
-        // Verify completion
         const progressRes = await query('SELECT percent FROM progress WHERE user_id = $1 AND course_id = $2', [userId, courseId]);
         if (progressRes.rows.length === 0 || progressRes.rows[0].percent < 100) {
             return res.status(403).send('Complete the course to get the certificate.');

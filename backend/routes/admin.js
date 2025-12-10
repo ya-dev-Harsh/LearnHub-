@@ -3,7 +3,6 @@ const router = express.Router();
 const { query } = require('../db');
 const upload = require('../middleware/upload');
 
-// Middleware to check if user is admin
 const isAdmin = (req, res, next) => {
     if (req.session.user && req.session.user.role === 'admin') {
         next();
@@ -14,7 +13,6 @@ const isAdmin = (req, res, next) => {
 
 router.use(isAdmin);
 
-// Dashboard: List all courses created
 router.get('/dashboard', async (req, res) => {
     try {
         const result = await query('SELECT * FROM courses ORDER BY created_at DESC');
@@ -29,7 +27,6 @@ router.get('/dashboard', async (req, res) => {
     }
 });
 
-// Create Course
 router.post('/courses', async (req, res) => {
     const { title, description, price } = req.body;
     try {
@@ -44,11 +41,9 @@ router.post('/courses', async (req, res) => {
     }
 });
 
-// Add Content to Course (Video/PDF)
 router.post('/courses/:id/content', upload.single('file'), async (req, res) => {
     const courseId = req.params.id;
     const { title, type } = req.body;
-    // File path relative to public folder (for serving)
     const url = req.file ? '/uploads/' + req.file.filename : '';
 
     try {

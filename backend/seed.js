@@ -23,13 +23,8 @@ async function seed() {
     try {
         console.log("Resetting and Seeding Database...");
 
-        // Optional: truncate tables to avoid duplicates (USE WITH CAUTION)
-        // We will just insert if not exists to be safe, but ideally we'd clear them for a 'fresh' feel if that was the request.
-        // Given constraints, I'll rely on the existing check logic, but I'll add 'TRUNCATE' for this specific step to Ensure clean state for the images.
-        // User asked to "change the image", implies replacing old ones.
         await query('TRUNCATE TABLE courses, enrollments, progress, contents RESTART IDENTITY CASCADE');
 
-        // Schema Update: Add image, instructor, and category columns if they don't exist
         try {
             await query('ALTER TABLE courses ADD COLUMN IF NOT EXISTS image_url TEXT');
             await query('ALTER TABLE courses ADD COLUMN IF NOT EXISTS instructor TEXT');
@@ -38,7 +33,6 @@ async function seed() {
             console.log("Schema update skipped or error:", e.message);
         }
 
-        // Create Admin User
         const password = await bcrypt.hash('admin123', 10);
         const userCheck = await query('SELECT * FROM users WHERE email = $1', ['admin@learnhub.com']);
         let adminId;
@@ -53,7 +47,6 @@ async function seed() {
             adminId = userCheck.rows[0].id;
         }
 
-        // Seed Courses
         for (const course of sampleCourses) {
             const check = await query('SELECT * FROM courses WHERE title = $1', [course.title]);
             if (check.rows.length === 0) {
@@ -63,7 +56,6 @@ async function seed() {
                 );
                 const courseId = res.rows[0].id;
 
-                // Add sample content
                 await query(
                     'INSERT INTO contents (course_id, title, type, url) VALUES ($1, $2, $3, $4)',
                     [courseId, 'Introduction', 'video', 'https://www.youtube.com/embed/dQw4w9WgXcQ']

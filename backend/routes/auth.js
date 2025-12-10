@@ -3,17 +3,14 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const { query } = require('../db');
 
-// Login Page
 router.get('/login', (req, res) => {
     res.render('login', { title: 'Login', user: req.session.user });
 });
 
-// Register Page
 router.get('/register', (req, res) => {
     res.render('register', { title: 'Register', user: req.session.user });
 });
 
-// Register User
 router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -35,7 +32,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login User
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -67,7 +63,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Logout
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/auth/login');
